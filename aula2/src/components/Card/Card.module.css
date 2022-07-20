@@ -1,0 +1,15 @@
+.card {
+    justify-self: center;
+    border: 1px solid grey;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    max-width: 180px;
+    padding: 16px;
+}
+
+.card img{
+    max-width: 100%;
+}

@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    align-items: center;
+    padding: 8px 80px;
+    min-height: 80px;
+    background-color: red;
+    color: white;
+}
+
+.header ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    list-style: none;
+    gap: 12px;
+}

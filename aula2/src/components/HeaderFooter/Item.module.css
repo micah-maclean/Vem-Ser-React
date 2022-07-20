@@ -1,0 +1,7 @@
+.item a{
+    color: white;
+}
+
+.item a > * {
+    text-decoration: none;
+}

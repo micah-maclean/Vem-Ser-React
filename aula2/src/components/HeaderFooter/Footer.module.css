@@ -1,0 +1,20 @@
+.footer {
+    background-color: red;
+    color: white;
+    padding: 24px 64px;
+}
+
+.footer ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.footer a{
+    color: white;
+}
+
+.footer > *:not(:last-child) {
+    margin-bottom: 24px;
+}
