@@ -1,0 +1,12 @@
+.app {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.app a{
+    color: white;
+}

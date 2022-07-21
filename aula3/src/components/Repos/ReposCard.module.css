@@ -1,0 +1,35 @@
+.reposCard {
+    background-color: #4B515D;
+    border: 1px solid grey;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.reposCard i{
+    margin: 0 8px;
+}
+
+.reposCard p{
+    display: none;
+}
+.reposCard:hover {
+    cursor: pointer;
+    background-color: lightslategray;
+    transition: all .5s;
+    transform : translateY(-8px);
+}
+
+.reposCard:hover  p{
+    display: block;
+}
+
+.reposCard > *:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.reposCard span {
+    font-size: 80%;
+    margin-left: 8px;
+    color: #B0B4B6;
+}
