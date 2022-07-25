@@ -27,7 +27,7 @@ const Repos = (url) => {
                     name={repository.name} 
                     description={repository.description}
                     language={repository.language}
-                    live={repository.repos_url}
+                    live={repository.homepage}
                     lastUpdated ={repository.updated_at}
                     url={repository.html_url} 
                     />

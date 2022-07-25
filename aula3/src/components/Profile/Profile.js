@@ -26,7 +26,7 @@ const Profile = ({photo, name, user, bio, company, location, blog, followers, fo
                         {location}
                     </li>
                     <li>
-                        <a href={blog}>
+                        <a href={blog} target="_blank">
                             <i className="fa-solid fa-link"></i>
                             {blog} 
                         </a>
@@ -34,9 +34,17 @@ const Profile = ({photo, name, user, bio, company, location, blog, followers, fo
                     </li>
                 </ul>
                 <div>
-                    <span>Follower: {followers}</span>
-                    <span>Following: {following}</span> 
+                    <span>
+                        <i class="fa-solid fa-user"></i>
+                        Follower: {followers}
+                    </span>
+                    <span>
+                        <i class="fa-solid fa-user"></i>
+                        Following: {following}
+                    </span> 
                 </div>
+
+                <hr/>
                 
 
             </div>

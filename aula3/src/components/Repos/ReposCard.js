@@ -1,15 +1,24 @@
-import styles from "./ReposCard.module.css"
+import styles from "./ReposCard.module.css";
+import moment from "moment";
 
-const ReposCard = ({name, description, language, live, url}) => {
-    console.log(live)
+const ReposCard = ({name, lastUpdated, description, language, live, url}) => {
     return(
         <div className={styles.reposCard}>
-            
-            <h3><i className="fa-brands fa-github-square"></i>{name}<span>{language}</span></h3>
-            <p>{description ? description : "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus voluptate voluptatem magnam odit provident soluta, aut maxime, deleniti non reprehenderit inventore explicabo numquam qui corporis temporibus quos tempora, autem molestiae? Voluptate perspiciatis quas illo eum exercitationem laboriosam repudiandae corporis provident maxime dolorem dolorum tempora quam, id rem excepturi totam atque?"}</p>
-            <a href={live}>{live}</a>
-            
-            <a href={url}>Learn more</a>
+            <a href={url} target="_blank">
+                <div>
+                    <h2><i className="fa-brands fa-github-square"></i>{name}<span>{language}</span></h2>
+                    <span>{moment(lastUpdated).format("MMMM YYYY")}</span>
+                </div>
+                
+                <div>
+                    <p>{description ? description : "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus voluptate voluptatem magnam odit provident soluta, aut maxime, deleniti non reprehenderit inventore explicabo numquam qui corporis temporibus quos tempora, autem molestiae?"}</p>
+                    {live && 
+                        <a href={live} target="_blank">
+                            <i className="fa-solid fa-link"></i>
+                            {live}
+                        </a>}
+                </div>
+            </a>
         </div>
     )
 }

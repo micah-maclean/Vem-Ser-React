@@ -10,21 +10,28 @@
     margin: 0 8px;
 }
 
-.reposCard p{
+.reposCard div:last-child{
     display: none;
 }
+
+.reposCard div:first-child{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .reposCard:hover {
     cursor: pointer;
-    background-color: lightslategray;
+    background-color: rgb(82, 94, 105);
     transition: all .5s;
     transform : translateY(-8px);
 }
 
-.reposCard:hover  p{
+.reposCard:hover  div:last-child{
     display: block;
 }
 
-.reposCard > *:not(:last-child) {
+.reposCard  a > div > *:not(:last-child) {
     margin-bottom: 8px;
 }
 
@@ -32,4 +39,8 @@
     font-size: 80%;
     margin-left: 8px;
     color: #B0B4B6;
+}
+
+.reposCard > a {
+    text-decoration: none;
 }
