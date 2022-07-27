@@ -1,12 +1,10 @@
 import { useFormik } from "formik";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../api";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {
-    const {login, setLogin} = useContext(AuthContext);
-    const navigate = useNavigate();
+    const {handleLogin} = useContext(AuthContext);
+
     const formik = useFormik({
         initialValues: {
             login: '',
@@ -16,17 +14,6 @@ function Login() {
             handleLogin(values)
         }
     });
-
-    async function handleLogin(user) {
-        try {
-            const {data}= await api.post("/auth", user);
-            localStorage.setItem('token', data)
-            navigate("/usuarios");
-            setLogin(true);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
   return (
     <form onSubmit={formik.handleSubmit}>
