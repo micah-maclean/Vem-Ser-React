@@ -6,10 +6,20 @@ export const Container = styled.div`
     border-radius: ${ props => props.borderRadius ? props.borderRadius: 'none'};
     flex-direction: ${ props => props.flexDirection ? props.flexDirection: 'row'};
     justify-content: ${ props => props.justifyContent ? props.justifyContent: 'center'};
+    align-items: ${ props => props.alignItems ? props.alignItems : ''};
     background-color: ${ props => props.backgroundColor ? props.backgroundColor : '#F7F8FC'};
     padding: ${ props => props.padding ? props.padding : '0'};
     min-height: ${ props => props.minHeight ? props.minHeight : '0'};
     width: ${ props => props.width ? props.width : '100%'};
     height: ${ props => props.height ? props.height : '100%'};
     overflow: ${ props => props.overflow ? props.overflow : ''};
+
+    p{
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    p > span {
+        font-weight: 400;
+    }
 `;

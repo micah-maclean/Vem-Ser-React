@@ -1,12 +1,14 @@
-import { FaUser} from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 import Item from "./Item";
+import { List } from "./Sidebar.styled";
 
 function Menu() {
+
   return (
-    <ul style={{listStyle:'none'}}>
+    <List>
         <Item text='Pessoas' route='/' icon={<FaUser />}/>
-    </ul>
+    </List>
   )
 }
 export default Menu;

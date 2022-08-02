@@ -1,12 +1,14 @@
-import {createContext} from 'react';
+import {createContext, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {toast} from "react-toastify";
 import { apiDBC, apiViaCEP } from '../api';
+import { AuthContext } from './AuthContext';
 
 const AddressContext = createContext();
 
 function AddressProvider({children}) {
     const navigate = useNavigate();
+    const {forceUpdate} = useContext(AuthContext);
 
     async function getAddressById(idEndereco) {
       try {
@@ -22,64 +24,44 @@ function AddressProvider({children}) {
         const {data} = await apiViaCEP.get(`/${value}/json/`);
         return data;
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     }
 
-    async function handleDelete(idEndereco) {
+    async function handleDeleteAddress(idEndereco) {
         try {
           await apiDBC.delete(`/endereco/${idEndereco}`);
-          toast.success('Endereço deletada com sucesso!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-        window.location.reload(false)
+          toast.success('Endereço deletada com sucesso!');
+          forceUpdate();
         } catch (error) {
-            console.log(error);
+          toast.error(error);
         }
     }
 
-    async function handleCreate(idPessoa, values) {
+    async function handleCreateAddress(idPessoa, values) {
       try {
         await apiDBC.post(`/endereco/{idPessoa}?idPessoa=${idPessoa}`, values);
-        toast.success('Endereço cadastrado com sucesso!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-      });
+        toast.success('Endereço cadastrado com sucesso!');
+        forceUpdate();
+        navigate(`/pessoa/${idPessoa}`)
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     }
 
-    async function handleUpdate(idEndereco, values) {
+    async function handleUpdateAddress(idPessoa, idEndereco, values) {
       try {
         await apiDBC.put(`/endereco/${idEndereco}`, values);
-        toast.success('Endereço alterado com sucesso!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-      });
+        toast.success('Endereço alterado com sucesso!');
+        forceUpdate();
+        navigate(`/pessoa/${idPessoa}`);
       } catch (error) {
-        
+        toast.error(error);
       }
     }
 
   return (
-    <AddressContext.Provider value={{getAddressById, handleViaCep, handleDelete, handleCreate, handleUpdate}}>
+    <AddressContext.Provider value={{getAddressById, handleViaCep, handleDeleteAddress, handleCreateAddress, handleUpdateAddress}}>
         {children}
     </AddressContext.Provider>
   )

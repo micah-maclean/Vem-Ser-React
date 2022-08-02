@@ -7,12 +7,14 @@ import {ContactContext} from "../../context/ContactContext"
 import { Container } from "../../components/container/Container";
 import { Button } from "../../components/button/Button";
 import { CustomForm } from "../../components/customForm/CustomForm";
+import Loading from "../../components/loading/Loading";
+import { telefoneMask } from "../../utils/Masks";
 
 
 const ContactSchema = Yup.object().shape({
   telefone: Yup.string()
       .required('Campo obrigatório'),
-  tipo: Yup.string()
+  tipoContato: Yup.string()
       .required('Campo obrigatório'),
   descricao: Yup.string()
       .required('Campo obrigatório'),
@@ -28,11 +30,12 @@ function Contact() {
 
   const [apiData, setApiData] = useState({});
   const [values, setValues] = useState({});
-  const { getContactById, handleCreate, handleUpdate} = useContext(ContactContext);
+  const { getContactById, handleCreateContact, handleUpdateContact} = useContext(ContactContext);
 
   async function setup() {
     setIsUpdate(true);
-    const data= await getContactById(idContato);
+    const data= await getContactById(id, idContato);
+    setApiData(data);
     setLoading(false);
   }
   
@@ -43,15 +46,14 @@ function Contact() {
       setLoading(false);
     }
   }, [])
-  
-
-  function maskTelefone(e) {
-    e.target.value = e.target.value.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2');
-  }
 
   function FormikContext() {
     const {values} = useFormikContext();
     setValues(values);
+  }
+
+  if(loading) {
+    return <Loading></Loading>
   }
   
   return (
@@ -59,21 +61,20 @@ function Contact() {
       
       <Formik
           initialValues = {{
-            tipo:  apiData.tipo,
-            telefone: apiData.telefone,
-            descricao: apiData.descricao,
+            tipoContato:  apiData.tipoContato ? apiData.tipoContato : '',
+            telefone: apiData.telefone ? telefoneMask(apiData.telefone)  : '',
+            descricao: apiData.descricao ? apiData.descricao : '' ,
           }}
+          enableReinitialize
           validationSchema={ContactSchema}
           onSubmit = { ( values, {resetForm}) => {
             values.telefone = values.telefone.replace(/\D/g, '');
             if(isUpdate){
-              handleUpdate(idContato, values)
+              handleUpdateContact(id, idContato, values)
             } else {
-              handleCreate(id, values)
+              handleCreateContact(id, values)
             }
-            console.log(values);
             resetForm({values: ''});
-            navigate(`/pessoa/${id}`)
           }}
       >
         {({errors, touched}) => (
@@ -82,19 +83,19 @@ function Contact() {
 
               <h2>Contato</h2>
 
-              <label>Telefone</label>
-              <Field name='telefone' placeholder='Telefone' onKeyUp={maskTelefone}/>
+              <label>Telefone*</label>
+              <Field name='telefone' placeholder='Telefone' onKeyUp={(e) => e.target.value = telefoneMask(e.target.value) }/>
               { touched.telefone && errors.telefone && <span>{errors.telefone}</span>}
 
-              <label>Tipo de Telefone:</label>
-              <Field name='tipo' as='select'>
+              <label>Tipo de Telefone*:</label>
+              <Field name='tipoContato' as='select'>
                 <option>Escolha o tipo</option>
                 <option value="RESIDENCIAL">Residencial</option>
                 <option value="COMERCIAL">Comercial</option>
               </Field>
-              { touched.tipo && errors.tipo && <span>{errors.tipo}</span>}
+              { touched.tipoContato && errors.tipoContato && <span>{errors.tipoContato}</span>}
 
-              <label>Descrição</label>
+              <label>Descrição*</label>
               <Field name='descricao' placeholder='Descrição' />
               { touched.descricao && errors.descricao && <span>{errors.descricao}</span>}
 

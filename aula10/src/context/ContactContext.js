@@ -1,44 +1,59 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { apiDBC } from "../api";
+import {toast} from "react-toastify";
+import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ContactContext = createContext();
 
 function ContactProvider({children}) {
+    const navigate = useNavigate();
+    const {forceUpdate} = useContext(AuthContext);
 
-    async function getContactById(idContato) {
+    async function getContactById(idPessoa, idContato) {
         try {
-            apiDBC.get(`/contato/${idContato}`)
+            const {data} = await apiDBC.get(`/contato/${idPessoa}`)
+            return data.filter( contato =>  contato.idContato == idContato)[0];
         } catch (error) {
-            console.log(error)
+            toast.error(error);
         }
     }
 
-    async function handleCreate(idPessoa, values) {
+    async function handleCreateContact(idPessoa, values) {
         try {
-            apiDBC.post(`/contato/${idPessoa}`, values);
+            await apiDBC.post(`/contato/${idPessoa}`, values);
+            toast.success('Contato cadastrada com sucesso!');
+            forceUpdate();
+            navigate(`/pessoa/${idPessoa}`);
         } catch (error) {
-            console.log(error)
+            toast.error(error);
         }
     }
     
-    async function handleUpdate(idContato, values) {
+    async function handleUpdateContact(idPessoa, idContato, values) {
         try {
-            apiDBC.delete(`/contato/${idContato}`, values)
+            await apiDBC.put(`/contato/${idContato}`, values)
+            toast.success('Contato alterado com sucesso!');
+            forceUpdate();
+            navigate(`/pessoa/${idPessoa}`);
+            
         } catch (error) {
-            console.log(error)
+            toast.error(error);
         }
     }
 
-    async function handleDelete(idContato) {
+    async function handleDeleteContact(idContato) {
         try {
-            apiDBC.delete(`/contato/${idContato}`)
+            await apiDBC.delete(`/contato/${idContato}`);
+            toast.success('Contato excluido com sucesso!');
+            forceUpdate();
         } catch (error) {
-            console.log(error)
+            toast.error(error);
         }
     }
 
   return (
-    <ContactContext.Provider value={{getContactById, handleCreate, handleUpdate, handleDelete}}>
+    <ContactContext.Provider value={{getContactById, handleCreateContact, handleUpdateContact, handleDeleteContact}}>
         {children}
     </ContactContext.Provider>
   )

@@ -1,12 +1,14 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 import { apiDBC } from "../api";
+import { AuthContext } from "./AuthContext";
 
 
 const PeopleContext = createContext();
 
 function PeopleProvider({children}) {
+    const {forceUpdate} = useContext(AuthContext);
     const navigate = useNavigate();
     const [pessoas, setPessoas] = useState();
 
@@ -14,6 +16,7 @@ function PeopleProvider({children}) {
         try {
             const {data} = await apiDBC.get('pessoa/lista-completa');
             setPessoas(data.content);
+
         } catch (error) {
             console.log(error)
         }
@@ -23,42 +26,30 @@ function PeopleProvider({children}) {
         try {
             const {data} = await apiDBC.get(`/pessoa/lista-completa?idPessoa=${id}`);
             return data[0];
+
         } catch (error) {
             console.log(error)
         }
     }
 
-    async function handleCreate(values) {
+    async function handleCreatePerson(values) {
         try {
             await apiDBC.post('/pessoa', values);
-            toast.success('Pessoa cadastrada com sucesso!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            navigate('/')
+            toast.success('Pessoa cadastrada com sucesso!');
+            forceUpdate();
+            navigate('/');
+
         } catch (error) {
             console.log(error)
         }
     }
     
-    async function handleDelete(id) {
+    async function handleDeletePerson(id) {
         try {
             await apiDBC.delete(`/pessoa/${id}`);
-            toast.success('Pessoa deletada com sucesso!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); 
-            window.location.reload(false)
+            toast.success('Pessoa excluida com sucesso!'); 
+            forceUpdate();
+
         } catch (error) {
             console.log(error);
         } 
@@ -66,26 +57,20 @@ function PeopleProvider({children}) {
     }
 
         
-    async function handleUpdate(id, values) {
+    async function handleUpdatePerson(id, values) {
         try {
             await apiDBC.put(`/pessoa/${id}`, values)
-            toast.success('Perfil de pessoa alterado com sucesso!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            navigate('/')
+            toast.success('Pessoa alterada com sucesso!');
+            forceUpdate();
+            navigate('/');
+            
         } catch (error) {
             console.log(error)
         }
     };
 
     return(
-        <PeopleContext.Provider value={{handleDelete, handleUpdate, handleCreate, getPeople, getPersonById}}>
+        <PeopleContext.Provider value={{handleDeletePerson, handleUpdatePerson, handleCreatePerson, getPeople, getPersonById}}>
             {children}
         </PeopleContext.Provider>
     );

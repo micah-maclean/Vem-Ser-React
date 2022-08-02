@@ -50,8 +50,8 @@ function PeopleForm() {
         enableReinitialize
         validationSchema = { Yup.object({
             nome: Yup.string().required(),
-            dataNascimento: Yup.date().required(),
-            cpf: Yup.string().required(),
+            dataNascimento: Yup.string().required(),
+            cpf: Yup.string().min(14).max(14).required(),
             email: Yup.string().email().required(),
         })}
         onSubmit = {( values, {resetForm}) =>{
@@ -67,19 +67,19 @@ function PeopleForm() {
             <CustomForm>
                 <h2>{ isUpdate ? 'Atualizar Usuário' : 'Cadastrar Usuário'}</h2>
 
-                <label>Nome</label>
+                <label>Nome*</label>
                 <Field name='nome' placeholder='Nome' />
                 { errors.nome && touched.nome && <span>{errors.nome}</span>}
 
-                <label>Data de Nascimento</label>
+                <label>Data de Nascimento*</label>
                 <Field name='dataNascimento' placeholder='Data de Nascimento' onKeyUp={(e) => e.target.value = dataMask(e.target.value) }/>
                 { errors.dataNascimento && touched.dataNascimento && <span>{errors.dataNascimento}</span>}
 
-                <label>CPF</label>
+                <label>CPF*</label>
                 <Field name='cpf' placeholder='CPF'  onKeyUp={(e) => e.target.value = cpfMask(e.target.value) }/>
                 { errors.cpf && touched.cpf && <span>{errors.cpf}</span>}
 
-                <label>Email</label>
+                <label>Email*</label>
                 <Field name='email' placeholder='Email' />
                 { errors.email && touched.email && <span>{errors.email}</span>}
 

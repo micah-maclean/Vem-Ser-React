@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import {useNavigate} from 'react-router-dom';
-import { confirmAlert } from 'react-confirm-alert'; 
+import { AuthContext } from "../../context/AuthContext"; 
+import {confirmAlert} from "react-confirm-alert"
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { Container } from "../../components/container/Container";
@@ -12,6 +13,7 @@ import Loading from "../../components/loading/Loading";
 
 function People() {
   const navigate = useNavigate();
+  const {reducerValue} = useContext(AuthContext);
   const [ loading, setLoading] = useState(true);
   const [ pessoas, setPessoas] = useState([]);
 
@@ -27,10 +29,10 @@ function People() {
   useEffect(() => {
     setup();
     setLoading(false);
-  }, []);
+  }, [reducerValue]);
 
   
-  async function handleCreate() {
+  function handleCreate() {
     navigate('/criar-pessoa')
   }
 
@@ -41,7 +43,7 @@ function People() {
   return (
     <Container backgroundColor={'#E5E5E5'} width={'calc(100% - 255px)'} padding={'40px 30px'} overflow={'auto'}>
       <Container height={'fit-content'} flexDirection={'column'} justifyContent={'center'}  border={'1px solid #DFE0EB'} borderRadius={'8px'} padding={'30px'}>   
-        <Container  justifyContent={'space-between'} height={'fit-content'} padding={'16px 0'}>
+        <Container  justifyContent={'space-between'} height={'fit-content'} backgroundColor={'none'}>
           <h2>Lista Pessoas</h2>
           <Button backgroundColor={'#29CC97'} onClick={handleCreate}> Criar pessoa </Button>
         </Container>

@@ -7,5 +7,5 @@ function Loading() {
     </Container>
     
   )
-}
-export default Loading
+};
+export default Loading;

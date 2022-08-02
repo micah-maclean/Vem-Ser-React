@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect, useReducer } from "react"
 import { apiDBC } from "../api";
 import Loading from "../components/loading/Loading";
 
@@ -7,6 +7,7 @@ const AuthContext = createContext();
 function AuthProvider({children}) {
     const [token, setToken] = useState(null); 
     const [loading, setLoading] = useState(true);
+    const [reducerValue, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -46,15 +47,16 @@ function AuthProvider({children}) {
             alert('Usuário cadastrado com sucesso')
             window.location.href = '/login';
         } catch (error) {
-            console(error);
+            console.log(error);//TODO
         }
     }
 
     if(loading) {
         return <Loading></Loading>
     }
+
     return (
-        <AuthContext.Provider value={{handleLogin, handleLogout, handleSignup, token}}>
+        <AuthContext.Provider value={{handleLogin, handleLogout, handleSignup, token, reducerValue, forceUpdate}}>
             {children}
         </AuthContext.Provider>
     )

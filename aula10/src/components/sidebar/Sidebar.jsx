@@ -1,4 +1,6 @@
 import Menu from "./Menu";
+import Logo from "./Logo";
+import { Linebreaker } from "./Sidebar.styled";
 import { Button } from "../button/Button";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react"
@@ -9,9 +11,11 @@ function Sidebar() {
   return (
    <>
       { token && 
-        <Container padding={'20px'} height={'100vh'} width={'255px'} backgroundColor={'#363740'} flexDirection={'column'} justifyContent={'space-around'}>
+        <Container  padding={'64px 8px'} height={'100vh'} alignItems={'center'} width={'255px'} backgroundColor={'#363740'} flexDirection={'column'} justifyContent={'flex-start'}>
+            <Logo/>
             <Menu/>
-            <Button  color={'white'} width={'100%'} onClick={handleLogout}>Sair</Button>
+            <Linebreaker />
+            <Button  color={'white'} width={'calc(100% - 12px)'} onClick={handleLogout}>Sair</Button>
         </Container>  
       }
    </>

@@ -10,13 +10,30 @@ export const Table = styled.table`
     }
 
     tr:not(:last-child){
-        border-bottom: 2px solid #DFE0EB;
-        
+        border-bottom: 2px solid #DFE0EB; 
     }
 
-    td, th{
+    tr:not(thead > tr):hover{
+        cursor: pointer;
+        background-color:rgba(55, 81, 255, 0.04);
+    }
+
+    th{
         text-align: left;
-        padding: 26px 0;
+        padding-bottom: 12px; 
+    }
+
+    td{
+        text-align: left;
+        padding: 26px 0; 
+    }
+
+    td:first-child, th:first-child {
+        padding-left: 32px;
+    }
+
+    td:last-child, th:last-child {
+        padding-right: 32px;
     }
 
     th:last-child{

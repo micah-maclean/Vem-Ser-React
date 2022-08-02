@@ -31,13 +31,14 @@ const AddressSchema = Yup.object().shape({
 function Address() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const { getAddressById, handleCreate, handleUpdate} = useContext(AddressContext);
+  const { getAddressById, handleCreateAddress, handleUpdateAddress} = useContext(AddressContext);
   const {id, idEndereco} = useParams();
   const [isUpdate, setIsUpdate] = useState(false);
   const [apiData, setApiData] = useState({});
   const [values, setValues] = useState({});
 
   async function setup() {
+    setIsUpdate(true)
    const data = await getAddressById(idEndereco);
    setApiData(data);
    setLoading(false);
@@ -99,14 +100,10 @@ function Address() {
           validationSchema={AddressSchema}
           onSubmit = { ( values, {resetForm}) => {
             values.cep = values.cep.replace(/\D/g, '');
-            if(idEndereco){
-              handleUpdate(idEndereco, values)
-            } else {
-              handleCreate(id, values)
-            }
-            console.log(values);
+            
+            isUpdate ? handleUpdateAddress(id, idEndereco, values) : handleCreateAddress(id, values);
+
             resetForm({values: ''});
-            navigate(`/pessoa/${id}`)
           }}
       >
         {({errors, touched}) => (
@@ -115,11 +112,11 @@ function Address() {
 
               <h2>Endereço</h2>
 
-              <label>CEP</label>
+              <label>CEP*</label>
               <Field name='cep' placeholder='CEP' onKeyUp={maskCEP}/>
               { touched.cep && errors.cep && <span>{errors.cep}</span>}
 
-              <label>Tipo de Residência:</label>
+              <label>Tipo de Residência*:</label>
               <Field name='tipo' as='select'>
                 <option>Escolha o tipo</option>
                 <option value="RESIDENCIAL">Residencial</option>
@@ -127,26 +124,26 @@ function Address() {
               </Field>
               { touched.tipo && errors.tipo && <span>{errors.tipo}</span>}
 
-              <label>Logradouro</label>
+              <label>Logradouro*</label>
               <Field name='logradouro' placeholder='Logradouro' />
               { touched.logradouro && errors.logradouro && <span>{errors.logradouro}</span>}
 
-              <label>Número</label>
+              <label>Número*</label>
               <Field name='numero' placeholder='Número' />
-              { touched.numero && errors.numero &&  <div>{errors.numero}</div>}
+              { touched.numero && errors.numero &&  <span>{errors.numero}</span>}
 
               <label>Complemento</label>
               <Field name='complemento' placeholder='Complemento' />
 
-              <label>Cidade</label>
+              <label>Cidade*</label>
               <Field name='cidade' placeholder='Cidade'/>
               { touched.cidade && errors.cidade && <span>{errors.cidade}</span>}
 
-              <label>Estado</label>
+              <label>Estado*</label>
               <Field name='estado' placeholder='Estado' />
               { touched.estado && errors.estado && <span>{errors.estado}</span>}
 
-              <label>Pais</label>
+              <label>Pais*</label>
               <Field name='pais' placeholder='Pais' />
               { touched.pais && errors.pais && <span>{errors.pais}</span>}
 

@@ -1,23 +1,40 @@
 import { useContext } from "react"
 import {useNavigate} from 'react-router-dom';
 import { PeopleContext } from "../../../context/PeopleContext";
+import {confirmAlert} from 'react-confirm-alert';
 
-
-import { cpfMask } from "../../../utils/Masks"
+import { cpfMask, transformData } from "../../../utils/Masks"
 import { Button } from "../../../components/button/Button";
 import { Container } from "../../../components/container/Container";
 import { Table } from "../../../components/table/Table";
 
 function List({list}) {
   const navigate = useNavigate();
-  const {handleDelete} = useContext(PeopleContext);
+  const {handleDeletePerson} = useContext(PeopleContext);
 
 
-  async function handleUpdate(id) {
+  function deletePerson(id) {
+    confirmAlert({
+      title: 'Confirmar exclusão',
+      message: 'Tem certeza que quer deletar pessoa.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => handleDeletePerson(id)
+        },
+        {
+          label: 'No'
+        }
+      ]
+    });
+
+  }
+
+ function updatePerson(id) {
     navigate(`/pessoa/${id}/editar`)
   }
 
-  async function handleView(id) {
+  function viewPerson(id) {
     navigate(`/pessoa/${id}`);
   }
 
@@ -39,12 +56,14 @@ function List({list}) {
                 <td >{pessoa.nome}</td>
                 <td>{pessoa.email}</td>
                 <td>{cpfMask(pessoa.cpf)}</td>
-                <td>{pessoa.dataNascimento}</td>
-                <td style={{display:'flex', justifyContent: 'space-around'}}>
-                  <Button border={'none'}  backgroundColor={'#3751FF'} color={'white'} onClick={() => handleView(pessoa.idPessoa)}>Visualizar</Button>
-                  <Button border={'none'} backgroundColor={'#F12B2C'} color={'white'} onClick={() => handleDelete(pessoa.idPessoa)}>Deletar</Button>
-                  <Button border={'none'} backgroundColor={'#FEC400'} color={'white'} onClick={() => handleUpdate(pessoa.idPessoa)}>Atualizar</Button>
-                </td>
+                <td>{transformData(pessoa.dataNascimento)}</td>
+                <td>
+                  <Container backgroundColor={'none'} justifyContent={'space-around'}>
+                    <Button border={'none'}  backgroundColor={'#3751FF'} color={'white'} onClick={() => viewPerson(pessoa.idPessoa)}>Visualizar</Button>
+                    <Button border={'none'} backgroundColor={'#F12B2C'} color={'white'} onClick={() => deletePerson(pessoa.idPessoa)}>Deletar</Button>
+                    <Button border={'none'} backgroundColor={'#FEC400'} color={'white'} onClick={() => updatePerson(pessoa.idPessoa)}>Atualizar</Button>
+                  </Container>
+                  </td>
               </tr>
             ))
           }
