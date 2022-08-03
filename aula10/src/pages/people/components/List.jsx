@@ -42,11 +42,13 @@ function List({list}) {
     <Container>
       <Table width={'100%'}>
         <thead>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>CPF</th>
-          <th>Data de Nascimento</th>
-          <th>Ações</th>
+          <tr>
+           <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Data de Nascimento</th>
+            <th>Ações</th> 
+          </tr>
         </thead>
 
         <tbody>

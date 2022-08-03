@@ -7,24 +7,21 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { Container } from "../../components/container/Container";
 import { Button } from "../../components/button/Button";
 import List from "./components/List";
-import { apiDBC } from "../../api";
 import Loading from "../../components/loading/Loading";
+import { PeopleContext } from "../../context/PeopleContext";
 
 
 function People() {
   const navigate = useNavigate();
+  const {getPeople} = useContext(PeopleContext);
   const {reducerValue} = useContext(AuthContext);
   const [ loading, setLoading] = useState(true);
   const [ pessoas, setPessoas] = useState([]);
 
   async function setup() {
-    try {
-        const {data} = await apiDBC.get('/pessoa?pagina=0&tamanhoDasPaginas=20');
-        setPessoas(data.content);
-    } catch (error) {
-        console.log(error)
-    }
-  } //TODO
+    const data = await getPeople();
+    setPessoas(data);
+  }
 
   useEffect(() => {
     setup();
@@ -45,10 +42,13 @@ function People() {
       <Container height={'fit-content'} flexDirection={'column'} justifyContent={'center'}  border={'1px solid #DFE0EB'} borderRadius={'8px'} padding={'30px'}>   
         <Container  justifyContent={'space-between'} height={'fit-content'} backgroundColor={'none'}>
           <h2>Lista Pessoas</h2>
-          <Button backgroundColor={'#29CC97'} onClick={handleCreate}> Criar pessoa </Button>
+          <Button backgroundColor={'#29CC97'} onClick={handleCreate}> + Criar pessoa </Button>
         </Container>
         
-        <List list={pessoas}/>
+        {
+          pessoas && <List list={pessoas}/>
+        }
+        
       </Container>
     </Container>
   )

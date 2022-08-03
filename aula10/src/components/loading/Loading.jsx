@@ -1,9 +1,21 @@
 import { Container } from "../container/Container"
+import { Spinner } from "./Loading.styled";
 
 function Loading() {
   return (
-    <Container width={'calc(100% - 255px)'}>
-      <h2>Loading Component</h2>
+    <Container width={'calc(100% - 255px)'} alignItems={'center'}>
+      <Spinner>
+        <div className="roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </Spinner>
     </Container>
     
   )

@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useReducer } from "react"
 import { apiDBC } from "../api";
+import {toast} from "react-toastify"
 import Loading from "../components/loading/Loading";
 
 const AuthContext = createContext();
@@ -30,7 +31,7 @@ function AuthProvider({children}) {
             apiDBC.defaults.headers.common['Authorization'] = data; 
             window.location.href = '/';
         } catch (error) {
-            console.log(error);
+            toast.error(error.message);
         }
     }
 
@@ -47,12 +48,12 @@ function AuthProvider({children}) {
             alert('Usuário cadastrado com sucesso')
             window.location.href = '/login';
         } catch (error) {
-            console.log(error);//TODO
+            toast.error(error.message);
         }
     }
 
     if(loading) {
-        return <Loading></Loading>
+        return <Loading/>
     }
 
     return (

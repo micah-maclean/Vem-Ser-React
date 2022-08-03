@@ -1,6 +1,7 @@
 import { Field, Formik, useFormikContext} from "formik";
 import { useContext, useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { apiViaCEP } from "../../api"
 
@@ -70,12 +71,11 @@ function Address() {
     
     try {
       const {data} = await apiViaCEP.get(`/${value}/json/`)
-      console.log(data)
       values.logradouro = data.logradouro;
       values.cidade = data.localidade;
       values.estado = data.uf;
     } catch (error) {
-      console.log(error);
+      toast.error(error.message);
     }
   }
 
@@ -100,8 +100,19 @@ function Address() {
           validationSchema={AddressSchema}
           onSubmit = { ( values, {resetForm}) => {
             values.cep = values.cep.replace(/\D/g, '');
+            const newValues = {
+              idPessoa: id,
+              tipo: values.tipo,
+              logradouro: values.logradouro,
+              numero: values.numero,
+              complemento: values.complemento,
+              cep: values.cep,
+              cidade: values.cidade,
+              estado: values.estado,
+              pais: values.pais,
+            }
             
-            isUpdate ? handleUpdateAddress(id, idEndereco, values) : handleCreateAddress(id, values);
+            isUpdate ? handleUpdateAddress(id, idEndereco, newValues) : handleCreateAddress(id, newValues);
 
             resetForm({values: ''});
           }}

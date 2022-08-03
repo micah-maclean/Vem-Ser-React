@@ -15,7 +15,7 @@ function AddressProvider({children}) {
         const {data} = await apiDBC.get(`/endereco/${idEndereco}`)
         return data;
       } catch (error) {
-        console.log(error)
+        toast.error(error.message);
       }
     }
 
@@ -24,7 +24,7 @@ function AddressProvider({children}) {
         const {data} = await apiViaCEP.get(`/${value}/json/`);
         return data;
       } catch (error) {
-        toast.error(error);
+        toast.error(error.message);
       }
     }
 
@@ -34,7 +34,7 @@ function AddressProvider({children}) {
           toast.success('Endereço deletada com sucesso!');
           forceUpdate();
         } catch (error) {
-          toast.error(error);
+          toast.error(error.message);
         }
     }
 
@@ -45,7 +45,7 @@ function AddressProvider({children}) {
         forceUpdate();
         navigate(`/pessoa/${idPessoa}`)
       } catch (error) {
-        toast.error(error);
+        toast.error(error.message);
       }
     }
 
@@ -56,7 +56,7 @@ function AddressProvider({children}) {
         forceUpdate();
         navigate(`/pessoa/${idPessoa}`);
       } catch (error) {
-        toast.error(error);
+        toast.error(error.message);
       }
     }
 

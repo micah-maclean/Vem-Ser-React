@@ -15,7 +15,7 @@ function ContactProvider({children}) {
             const {data} = await apiDBC.get(`/contato/${idPessoa}`)
             return data.filter( contato =>  contato.idContato == idContato)[0];
         } catch (error) {
-            toast.error(error);
+            toast.error(error.message);
         }
     }
 
@@ -26,7 +26,7 @@ function ContactProvider({children}) {
             forceUpdate();
             navigate(`/pessoa/${idPessoa}`);
         } catch (error) {
-            toast.error(error);
+            toast.error(error.message);
         }
     }
     
@@ -38,7 +38,7 @@ function ContactProvider({children}) {
             navigate(`/pessoa/${idPessoa}`);
             
         } catch (error) {
-            toast.error(error);
+            toast.error(error.message);
         }
     }
 
@@ -48,7 +48,7 @@ function ContactProvider({children}) {
             toast.success('Contato excluido com sucesso!');
             forceUpdate();
         } catch (error) {
-            toast.error(error);
+            toast.error(error.message);
         }
     }
 

@@ -10,15 +10,13 @@ const PeopleContext = createContext();
 function PeopleProvider({children}) {
     const {forceUpdate} = useContext(AuthContext);
     const navigate = useNavigate();
-    const [pessoas, setPessoas] = useState();
 
     async function getPeople() {
         try {
-            const {data} = await apiDBC.get('pessoa/lista-completa');
-            setPessoas(data.content);
-
+            const {data} = await apiDBC.get('/pessoa/lista-completa');
+            return data;
         } catch (error) {
-            console.log(error)
+           toast.error(error.message);
         }
     }
 
@@ -26,9 +24,8 @@ function PeopleProvider({children}) {
         try {
             const {data} = await apiDBC.get(`/pessoa/lista-completa?idPessoa=${id}`);
             return data[0];
-
         } catch (error) {
-            console.log(error)
+            toast.error(error.message);
         }
     }
 
@@ -40,7 +37,7 @@ function PeopleProvider({children}) {
             navigate('/');
 
         } catch (error) {
-            console.log(error)
+            toast.error(error.message);
         }
     }
     
@@ -51,7 +48,7 @@ function PeopleProvider({children}) {
             forceUpdate();
 
         } catch (error) {
-            console.log(error);
+            toast.error(error.message);
         } 
        
     }
@@ -65,7 +62,7 @@ function PeopleProvider({children}) {
             navigate('/');
             
         } catch (error) {
-            console.log(error)
+            toast.error(error.message);
         }
     };
 

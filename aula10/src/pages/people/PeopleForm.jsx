@@ -12,7 +12,7 @@ import { CustomForm } from "../../components/customForm/CustomForm";
 import Loading from "../../components/loading/Loading";
 
 function PeopleForm() {
-  const {handleUpdate, handleCreate, getPersonById} = useContext(PeopleContext);
+  const {handleUpdatePerson, handleCreatePerson, getPersonById} = useContext(PeopleContext);
   const {id} = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ function PeopleForm() {
   }, [])
   
   if(loading) {
-    return <Loading></Loading>
+    return <Loading/>
   }
 
   return (
@@ -58,7 +58,7 @@ function PeopleForm() {
           values.dataNascimento = values.dataNascimento.split('/').reverse().join('-');
           values.cpf = values.cpf.replace(/\D/g, '');
 
-          isUpdate ? handleUpdate(id, values) : handleCreate(values);
+          isUpdate ? handleUpdatePerson(id, values) : handleCreatePerson(values);
           
           resetForm({values: ''});
         }}

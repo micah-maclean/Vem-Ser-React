@@ -84,7 +84,7 @@ function PeopleDetails() {
   }
 
   if(loading) {
-    return <Loading></Loading>
+    return <Loading/>
   }
 
   return (
